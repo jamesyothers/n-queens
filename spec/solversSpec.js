@@ -4,9 +4,10 @@ describe('solvers', function() {
   describe('findNRooksSolution()', function() {
 
     it('finds a valid solution for n of 1-8', function() {
+      // debugger;
       _.range(1, 9).map(function(n) {
         var solutionBoard = new Board(findNRooksSolution(n));
-
+        console.log(solutionBoard);
         expect(solutionBoard.get('n')).to.equal(n);
         expect(solutionBoard.hasAnyRooksConflicts()).to.be.equal(false);
       });
@@ -17,6 +18,7 @@ describe('solvers', function() {
   describe('countNRooksSolutions()', function() {
 
     it('finds the number of valid solutions for n of 1-8', function() {
+
       _.range(1, 9).map(function(n) {
         var solutionCount = countNRooksSolutions(n);
         var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040, 40320][n];
