@@ -29,7 +29,12 @@
     cols: function() {
       var rows = this.rows();
       var storage = [];
-      for (var i=0; i<rows[0].length; i++) {
+      //iterate over the number of rows
+      for (var i=0; i<rows.length; i++) {
+        //invert the nxn matrix by using _.pluck
+        //_.pluck(array, indecie of inner arrays)
+        //will grab all at a indicie of the inner arrays
+        //and make a new array
         storage.push(_.pluck(rows, i));
       }
       return storage;
@@ -90,57 +95,30 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-// <<<<<<< HEAD
-      //debugger;
-      //console.log(this.get(0)[0]);
+
+      var counter = 0;
       var row = this.rows()[rowIndex];
-      var num = 0;
-      for (var i=0; i < row.length; i++) {
-        if (row[i] === 1) {
-          num++;
-        }
-        if (num > 1) {
-          return true;
-        }
+      // iterating over a single row
+      for (var i = 0; i < row.length; i++ ){
+        // check for pieces
+        counter += row[i];
       }
-// =======
-//       var counter = 0;
-//       var row = this.rows()[rowIndex];
-//       // iterating over a single row
-//       for (var i = 0; i < row.length; i++ ){
-//         // check for pieces
-//         if (row[i] === 1){
-//           counter++;
-//         }
-//       }
-//       // if there's more than one piece
-//       if (counter > 1) {
-//         return true;
-//       }
-// >>>>>>> d46b503c7e06acad913b351e28ff586d02ed91de
-      return false; // fixme
+      // if there's more than one piece
+      return counter > 1;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-// <<<<<<< HEAD
-    
-    // var row = this.rows()[rowIndex];
 
-    // for (var i=0; i )
-    //   hasRowConflictAt()
-
-// =======
-//       // get the rows
-//       var rows = this.rows();
-//       // loop through rows
-//       // check if there's a conflict
-//       for (var i = 0; i < rows.length; i++){
-//         if (this.hasRowConflictAt(i)){
-//           return true;
-//         }
-//       }
-// >>>>>>> d46b503c7e06acad913b351e28ff586d02ed91de
+      // get the rows
+      var rows = this.rows();
+      // loop through rows
+      // check if there's a conflict
+      for (var i = 0; i < rows.length; i++){
+        if (this.hasRowConflictAt(i)){
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -172,6 +150,7 @@
       //get column array
       //iterate over array
       //check for column conflict
+      //use the cols method we wrote
       var cols = this.cols();
       for (var i=0; i<cols.length; i++) {
         if (this.hasColConflictAt(i)) {
@@ -198,14 +177,22 @@
       var rows = this.rows();
       // initialize the storage array
       var storage = [];
-      // double for loop
+      // iterate over all rows and columns
       for (var i = 0; i < rows.length; i++){
         for (var j = 0; j < rows.length; j++){
+          //if there is a piece in the row/col location
           if ( rows[i][j] === 1 ) {
+            //subtract it's row/col to get a value
             var diff = this._getFirstRowColumnIndexForMajorDiagonalOn(i,j);
+            //if the storage array does not contain the value
             if ( storage.indexOf(diff) === -1 ){
+              //push in the value
               storage.push(diff);
             }else{
+              //if the storage array does contain the value
+              //this means there is a diagonal conflict
+              //diagonal conflicting pieces have a  characteristic
+              //that their row/col difference are equal
               return true;
             }
           }
@@ -226,6 +213,7 @@
     },
 
     // test if any minor diagonals on this board contain conflicts
+    // see documentation of major diagonal conflicts method
     hasAnyMinorDiagonalConflicts: function() {
       var rows = this.rows();
       // initialize the storage array
